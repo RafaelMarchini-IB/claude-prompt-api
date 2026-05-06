@@ -4,6 +4,13 @@ export default async function handler(req, res) {
 
     const response = await fetch(url);
 
+    if (!response.ok) {
+      return res.status(500).json({
+        error: "Failed to fetch doc",
+        status: response.status
+      });
+    }
+
     const text = await response.text();
 
     res.status(200).json({
@@ -12,7 +19,6 @@ export default async function handler(req, res) {
 
   } catch (error) {
     res.status(500).json({
-      prompt: "",
       error: error.message
     });
   }
